@@ -54,7 +54,7 @@ func main() {
 			Value:  "private",
 			EnvVar: "PLUGIN_ACL",
 		},
-		cli.StringFlag{
+		cli.StringSliceFlag{
 			Name:   "source",
 			Usage:  "upload files from source folder",
 			EnvVar: "PLUGIN_SOURCE",
@@ -135,7 +135,7 @@ func run(c *cli.Context) error {
 		Bucket:          c.String("bucket"),
 		Region:          c.String("region"),
 		Access:          c.String("acl"),
-		Source:          c.String("source"),
+		Source:          c.StringSlice("source"),
 		Target:          c.String("target"),
 		StripPrefix:     c.String("strip-prefix"),
 		Exclude:         c.StringSlice("exclude"),

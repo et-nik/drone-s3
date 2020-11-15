@@ -12,6 +12,10 @@ Drone plugin to publish files and artifacts to Amazon S3 or Minio. For the
 usage information and a listing of the available options please take a look at
 [the docs](http://plugins.drone.io/drone-plugins/drone-s3/).
 
+# Differences from the original
+
+Implemented multisource
+
 ## Build
 
 Build the binary with the following commands:
@@ -44,7 +48,7 @@ Execute from the working directory:
 
 ```
 docker run --rm \
-  -e PLUGIN_SOURCE=<source> \
+  -e PLUGIN_SOURCE=<source1>,<source2>,... \
   -e PLUGIN_TARGET=<target> \
   -e PLUGIN_BUCKET=<bucket> \
   -e AWS_ACCESS_KEY_ID=<token> \

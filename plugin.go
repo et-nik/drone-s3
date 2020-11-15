@@ -69,7 +69,7 @@ type Plugin struct {
 	//    /path/to/*.txt
 	//    /path/to/*/*.txt
 	//    /path/to/**
-	Source string
+	Source []string
 	Target string
 
 	// Strip the prefix from the target path
@@ -116,15 +116,24 @@ func (p *Plugin) Exec() error {
 		"bucket":   p.Bucket,
 	}).Info("Attempting to upload")
 
-	matches, err := matches(p.Source, p.Exclude)
-	if err != nil {
-		log.WithFields(log.Fields{
-			"error": err,
-		}).Error("Could not match files")
-		return err
+	var matchesFromSource []string
+
+	for _, source := range p.Source {
+		mt, err := matches(source, p.Exclude)
+
+		if err != nil {
+			log.WithFields(log.Fields{
+				"error": err,
+			}).Error("Could not match files")
+			return err
+		}
+
+		for _, match := range mt {
+			matchesFromSource = append(matchesFromSource, match)
+		}
 	}
 
-	for _, match := range matches {
+	for _, match := range matchesFromSource {
 
 		stat, err := os.Stat(match)
 		if err != nil {
